@@ -1,0 +1,16 @@
+# Large database files that exceed GitHub limits
+PasswordLLM/data/data_breach/
+PasswordLLM/vector_store/
+PasswordLLM/vector_stores/
+PasswordLLM/chroma_db/
+
+# All SQLite databases (they're too large)
+*.sqlite3
+
+# Binary files from vector databases  
+*.bin
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo

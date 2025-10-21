@@ -1,0 +1,148 @@
+PASSWORD SECURITY RULES AND GUIDELINES
+
+=== BASIC PASSWORD REQUIREMENTS ===
+Minimum length: 8 characters
+Maximum length: 128 characters
+Must contain at least one uppercase letter (A-Z)
+Must contain at least one lowercase letter (a-z)
+Must contain at least one numeric digit (0-9)
+Must contain at least one special character (!@#$%^&*()_+-=[]{}|;:,.<>?)
+Cannot be identical to username or email address
+Cannot contain personal information (name, birthday, address)
+Cannot be a common dictionary word
+Cannot be a previously used password (last 12 passwords)
+
+=== NIST SP 800-63B GUIDELINES ===
+Minimum 8 characters for user-chosen passwords
+Minimum 6 characters for system-generated passwords
+Maximum 64 characters or more should be supported
+No composition rules required if other security measures are in place
+Check against lists of commonly used, compromised, or dictionary passwords
+No periodic password changes required unless compromise is suspected
+Allow all printable ASCII characters and Unicode characters
+Provide password strength meter to users
+Implement account lockout or rate limiting for failed attempts
+
+=== PCI DSS PASSWORD REQUIREMENTS ===
+Minimum 7 characters (12 characters for system accounts)
+Contain both numeric and alphabetic characters
+Must not contain the user ID
+Change passwords at least once every 90 days
+Cannot reuse any of the last four passwords
+First-time passwords must be changed after first use
+Account lockout after 6 failed login attempts
+Lockout duration minimum 30 minutes or until admin reset
+
+=== ISO 27001 PASSWORD STANDARDS ===
+Minimum password length of 8 characters
+Complex passwords with mixed case, numbers, and symbols
+Regular password changes based on risk assessment
+Account lockout after multiple failed attempts
+Password history to prevent reuse
+Multi-factor authentication for privileged accounts
+Secure password storage using strong hashing algorithms
+Password policy documentation and user training
+
+=== COMMON PASSWORD PATTERNS TO AVOID ===
+Sequential characters: 123456, abcdef, qwerty
+Repeated characters: aaaaaa, 111111, ......
+Keyboard patterns: qwertyuiop, asdfghjkl, zxcvbnm
+Simple substitutions: p@ssw0rd, passw0rd1, h3ll0
+Date-based patterns: password2024, summer2023, jan01
+Company name variations: [company]123, [company]2024
+Personal information: name+birthday, address+year
+Common phrases: iloveyou, letmein, welcome
+
+=== INDUSTRY-SPECIFIC REQUIREMENTS ===
+
+Healthcare (HIPAA):
+- Unique user identification required
+- Automatic logoff after inactivity
+- Encryption of passwords in transit and at rest
+- Multi-factor authentication recommended
+- Regular access reviews and audits
+
+Financial Services (SOX, PCI):
+- Strong authentication mechanisms
+- Multi-factor authentication mandatory
+- Regular password changes for privileged accounts
+- Comprehensive logging and monitoring
+- Segregation of duties enforcement
+
+Government (FISMA):
+- Minimum 12 character passwords for federal systems
+- Multi-factor authentication required
+- Regular security assessments and audits
+- Compliance with FIPS 140-2 standards
+- Incident response procedures
+
+=== PASSWORD STRENGTH SCORING ===
+Weak (0-2 points):
+- Less than 8 characters
+- Only lowercase letters
+- Common dictionary words
+- Personal information patterns
+
+Fair (3-4 points):
+- 8-11 characters
+- Mixed case letters
+- Contains numbers
+- No special characters
+
+Good (5-6 points):
+- 12-15 characters
+- Mixed case, numbers, symbols
+- No dictionary words
+- No predictable patterns
+
+Strong (7-8 points):
+- 16+ characters
+- Complex character mix
+- No common patterns
+- Unique and unpredictable
+
+Excellent (9-10 points):
+- 20+ characters
+- High entropy
+- Passphrase style
+- Random generation
+
+=== ACCOUNT SECURITY MEASURES ===
+Implement progressive delays for failed login attempts
+Use CAPTCHA after multiple failed attempts
+Log all authentication attempts
+Monitor for suspicious login patterns
+Implement device recognition and trusted devices
+Provide secure password reset mechanisms
+Use encrypted communication channels
+Regular security awareness training
+
+=== PASSWORD STORAGE REQUIREMENTS ===
+Never store passwords in plain text
+Use strong one-way hashing algorithms (bcrypt, scrypt, Argon2)
+Implement proper salt generation for each password
+Use appropriate work factors/iterations for hashing
+Protect password databases with additional encryption
+Implement secure backup and recovery procedures
+Regular security audits of password storage systems
+Compliance with data protection regulations
+
+=== MULTI-FACTOR AUTHENTICATION ===
+Implement MFA for all administrative accounts
+Require MFA for remote access
+Use time-based tokens (TOTP) or hardware tokens
+Support multiple authentication methods
+Implement backup authentication methods
+Regular review of MFA effectiveness
+User training on MFA best practices
+Secure enrollment and recovery processes
+
+=== PASSWORD POLICY ENFORCEMENT ===
+Technical controls to enforce password requirements
+User education and awareness programs
+Regular policy reviews and updates
+Incident response for password-related breaches
+Compliance monitoring and reporting
+Integration with identity management systems
+Automated password expiration notifications
+Secure password sharing mechanisms for shared accounts
