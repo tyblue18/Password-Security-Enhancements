@@ -1,0 +1,793 @@
+{
+  "analyzer_results": {
+    "common": {
+      "detected": 15,
+      "total": 15,
+      "details": [
+        {
+          "password": "password123",
+          "detected": true,
+          "reason": "Variant 'password' found in common password database"
+        },
+        {
+          "password": "qwerty",
+          "detected": true,
+          "reason": "Found in common password database"
+        },
+        {
+          "password": "123456",
+          "detected": true,
+          "reason": "Found in common password database"
+        },
+        {
+          "password": "password",
+          "detected": true,
+          "reason": "Found in common password database"
+        },
+        {
+          "password": "12345678",
+          "detected": true,
+          "reason": "Found in common password database"
+        },
+        {
+          "password": "admin",
+          "detected": true,
+          "reason": "Found in common password database"
+        },
+        {
+          "password": "letmein",
+          "detected": true,
+          "reason": "Found in common password database"
+        },
+        {
+          "password": "welcome",
+          "detected": true,
+          "reason": "Found in common password database"
+        },
+        {
+          "password": "monkey",
+          "detected": true,
+          "reason": "Found in common password database"
+        },
+        {
+          "password": "1234567890",
+          "detected": true,
+          "reason": "Found in common password database"
+        },
+        {
+          "password": "qwerty123",
+          "detected": true,
+          "reason": "Variant 'qwerty' found in common password database"
+        },
+        {
+          "password": "password1",
+          "detected": true,
+          "reason": "Found in common password database"
+        },
+        {
+          "password": "root",
+          "detected": true,
+          "reason": "Found in common password database"
+        },
+        {
+          "password": "toor",
+          "detected": true,
+          "reason": "Found in common password database"
+        },
+        {
+          "password": "passw0rd",
+          "detected": true,
+          "reason": "Found in common password database"
+        }
+      ]
+    },
+    "keyboard_patterns": {
+      "detected": 16,
+      "total": 30,
+      "details": [
+        {
+          "password": "qwerty",
+          "detected": true,
+          "reason": "Contains keyboard walk: qwer"
+        },
+        {
+          "password": "123456",
+          "detected": true,
+          "reason": "Contains keyboard walk: 1234"
+        },
+        {
+          "password": "12345678",
+          "detected": true,
+          "reason": "Contains keyboard walk: 1234"
+        },
+        {
+          "password": "1234567890",
+          "detected": true,
+          "reason": "Contains keyboard walk: 1234"
+        },
+        {
+          "password": "qwerty123",
+          "detected": true,
+          "reason": "Contains keyboard walk: qwer"
+        },
+        {
+          "password": "qwertyuiop",
+          "detected": true,
+          "reason": "Contains keyboard walk: qwer"
+        },
+        {
+          "password": "asdfghjkl",
+          "detected": true,
+          "reason": "Contains keyboard walk: asdf"
+        },
+        {
+          "password": "123456789",
+          "detected": true,
+          "reason": "Contains keyboard walk: 1234"
+        },
+        {
+          "password": "abcdefgh",
+          "detected": true,
+          "reason": "Contains keyboard diagonal: cde"
+        },
+        {
+          "password": "qwerty1234",
+          "detected": true,
+          "reason": "Contains keyboard walk: qwer"
+        },
+        {
+          "password": "qazwsx123",
+          "detected": true,
+          "reason": "Contains keyboard diagonal: qaz"
+        },
+        {
+          "password": "1qaz2wsx",
+          "detected": true,
+          "reason": "Contains keyboard diagonal: qaz"
+        },
+        {
+          "password": "qwertyui",
+          "detected": true,
+          "reason": "Contains keyboard walk: qwer"
+        },
+        {
+          "password": "asdf1234",
+          "detected": true,
+          "reason": "Contains keyboard walk: asdf"
+        },
+        {
+          "password": "1234qwer",
+          "detected": true,
+          "reason": "Contains keyboard walk: qwer"
+        },
+        {
+          "password": "qwerty1",
+          "detected": true,
+          "reason": "Contains keyboard walk: qwer"
+        }
+      ]
+    },
+    "sequential_patterns": {
+      "detected": 15,
+      "total": 30,
+      "details": [
+        {
+          "password": "password123",
+          "detected": true,
+          "reason": "Contains ascending sequential numbers"
+        },
+        {
+          "password": "123456",
+          "detected": true,
+          "reason": "Contains ascending sequential numbers"
+        },
+        {
+          "password": "12345678",
+          "detected": true,
+          "reason": "Contains ascending sequential numbers"
+        },
+        {
+          "password": "1234567890",
+          "detected": true,
+          "reason": "Contains ascending sequential numbers"
+        },
+        {
+          "password": "qwerty123",
+          "detected": true,
+          "reason": "Contains ascending sequential numbers"
+        },
+        {
+          "password": "abc123def",
+          "detected": true,
+          "reason": "Contains ascending sequential numbers"
+        },
+        {
+          "password": "asdfghjkl",
+          "detected": true,
+          "reason": "Contains ascending sequential letters"
+        },
+        {
+          "password": "123456789",
+          "detected": true,
+          "reason": "Contains ascending sequential numbers"
+        },
+        {
+          "password": "abcdefgh",
+          "detected": true,
+          "reason": "Contains ascending sequential letters"
+        },
+        {
+          "password": "qwerty1234",
+          "detected": true,
+          "reason": "Contains ascending sequential numbers"
+        },
+        {
+          "password": "password123!",
+          "detected": true,
+          "reason": "Contains ascending sequential numbers"
+        },
+        {
+          "password": "admin123",
+          "detected": true,
+          "reason": "Contains ascending sequential numbers"
+        },
+        {
+          "password": "qazwsx123",
+          "detected": true,
+          "reason": "Contains ascending sequential numbers"
+        },
+        {
+          "password": "asdf1234",
+          "detected": true,
+          "reason": "Contains ascending sequential numbers"
+        },
+        {
+          "password": "1234qwer",
+          "detected": true,
+          "reason": "Contains ascending sequential numbers"
+        }
+      ]
+    },
+    "dictionary_words": {
+      "detected": 23,
+      "total": 40,
+      "details": [
+        {
+          "password": "password123",
+          "detected": true,
+          "reason": "Contains common word: password"
+        },
+        {
+          "password": "qwerty",
+          "detected": true,
+          "reason": "Contains common word: qwerty"
+        },
+        {
+          "password": "password",
+          "detected": true,
+          "reason": "Contains common word: password"
+        },
+        {
+          "password": "admin",
+          "detected": true,
+          "reason": "Contains common word: admin"
+        },
+        {
+          "password": "letmein",
+          "detected": true,
+          "reason": "Contains common word: letmein"
+        },
+        {
+          "password": "welcome",
+          "detected": true,
+          "reason": "Contains common word: welcome"
+        },
+        {
+          "password": "monkey",
+          "detected": true,
+          "reason": "Contains common word: monkey"
+        },
+        {
+          "password": "qwerty123",
+          "detected": true,
+          "reason": "Contains common word: qwerty"
+        },
+        {
+          "password": "password1",
+          "detected": true,
+          "reason": "Contains common word: password"
+        },
+        {
+          "password": "root",
+          "detected": true,
+          "reason": "Contains common word: root"
+        },
+        {
+          "password": "toor",
+          "detected": true,
+          "reason": "Contains common word: toor"
+        },
+        {
+          "password": "passw0rd",
+          "detected": true,
+          "reason": "Contains common word: pass"
+        },
+        {
+          "password": "qwertyuiop",
+          "detected": true,
+          "reason": "Contains common word: qwerty"
+        },
+        {
+          "password": "qwerty1234",
+          "detected": true,
+          "reason": "Contains common word: qwerty"
+        },
+        {
+          "password": "password123!",
+          "detected": true,
+          "reason": "Contains common word: password"
+        },
+        {
+          "password": "admin123",
+          "detected": true,
+          "reason": "Contains common word: admin"
+        },
+        {
+          "password": "qwertyui",
+          "detected": true,
+          "reason": "Contains common word: qwerty"
+        },
+        {
+          "password": "qwerty1",
+          "detected": true,
+          "reason": "Contains common word: qwerty"
+        },
+        {
+          "password": "password12",
+          "detected": true,
+          "reason": "Contains common word: password"
+        },
+        {
+          "password": "MyP@ssw0rd!",
+          "detected": true,
+          "reason": "Contains common word: p@ssw0rd"
+        },
+        {
+          "password": "P@ssw0rd1",
+          "detected": true,
+          "reason": "Contains common word: p@ssw0rd"
+        },
+        {
+          "password": "Password123!",
+          "detected": true,
+          "reason": "Contains common word: password"
+        },
+        {
+          "password": "P@ssw0rd12",
+          "detected": true,
+          "reason": "Contains common word: p@ssw0rd"
+        }
+      ]
+    },
+    "scores": [
+      {
+        "password": "password123",
+        "category": "common",
+        "score": 1,
+        "entropy": 36.05,
+        "length": 11
+      },
+      {
+        "password": "qwerty",
+        "category": "common",
+        "score": 1,
+        "entropy": 15.51,
+        "length": 6
+      },
+      {
+        "password": "123456",
+        "category": "common",
+        "score": 1,
+        "entropy": 15.51,
+        "length": 6
+      },
+      {
+        "password": "password",
+        "category": "common",
+        "score": 1,
+        "entropy": 22.0,
+        "length": 8
+      },
+      {
+        "password": "12345678",
+        "category": "common",
+        "score": 1,
+        "entropy": 24.0,
+        "length": 8
+      },
+      {
+        "password": "admin",
+        "category": "common",
+        "score": 1,
+        "entropy": 11.61,
+        "length": 5
+      },
+      {
+        "password": "letmein",
+        "category": "common",
+        "score": 1,
+        "entropy": 17.65,
+        "length": 7
+      },
+      {
+        "password": "welcome",
+        "category": "common",
+        "score": 1,
+        "entropy": 17.65,
+        "length": 7
+      },
+      {
+        "password": "monkey",
+        "category": "common",
+        "score": 1,
+        "entropy": 15.51,
+        "length": 6
+      },
+      {
+        "password": "1234567890",
+        "category": "common",
+        "score": 1,
+        "entropy": 33.22,
+        "length": 10
+      },
+      {
+        "password": "qwerty123",
+        "category": "common",
+        "score": 1,
+        "entropy": 28.53,
+        "length": 9
+      },
+      {
+        "password": "password1",
+        "category": "common",
+        "score": 1,
+        "entropy": 26.53,
+        "length": 9
+      },
+      {
+        "password": "root",
+        "category": "common",
+        "score": 1,
+        "entropy": 6.0,
+        "length": 4
+      },
+      {
+        "password": "toor",
+        "category": "common",
+        "score": 1,
+        "entropy": 6.0,
+        "length": 4
+      },
+      {
+        "password": "passw0rd",
+        "category": "common",
+        "score": 1,
+        "entropy": 22.0,
+        "length": 8
+      },
+      {
+        "password": "abc123def",
+        "category": "weak_patterns",
+        "score": 1,
+        "entropy": 28.53,
+        "length": 9
+      },
+      {
+        "password": "qwertyuiop",
+        "category": "weak_patterns",
+        "score": 1,
+        "entropy": 33.22,
+        "length": 10
+      },
+      {
+        "password": "asdfghjkl",
+        "category": "weak_patterns",
+        "score": 1,
+        "entropy": 28.53,
+        "length": 9
+      },
+      {
+        "password": "123456789",
+        "category": "weak_patterns",
+        "score": 1,
+        "entropy": 28.53,
+        "length": 9
+      },
+      {
+        "password": "abcdefgh",
+        "category": "weak_patterns",
+        "score": 1,
+        "entropy": 24.0,
+        "length": 8
+      },
+      {
+        "password": "qwerty1234",
+        "category": "weak_patterns",
+        "score": 1,
+        "entropy": 33.22,
+        "length": 10
+      },
+      {
+        "password": "password123!",
+        "category": "weak_patterns",
+        "score": 1,
+        "entropy": 41.02,
+        "length": 12
+      },
+      {
+        "password": "admin123",
+        "category": "weak_patterns",
+        "score": 1,
+        "entropy": 24.0,
+        "length": 8
+      },
+      {
+        "password": "qazwsx123",
+        "category": "weak_patterns",
+        "score": 1,
+        "entropy": 28.53,
+        "length": 9
+      },
+      {
+        "password": "1qaz2wsx",
+        "category": "weak_patterns",
+        "score": 1,
+        "entropy": 24.0,
+        "length": 8
+      },
+      {
+        "password": "qwertyui",
+        "category": "weak_patterns",
+        "score": 1,
+        "entropy": 24.0,
+        "length": 8
+      },
+      {
+        "password": "asdf1234",
+        "category": "weak_patterns",
+        "score": 1,
+        "entropy": 24.0,
+        "length": 8
+      },
+      {
+        "password": "1234qwer",
+        "category": "weak_patterns",
+        "score": 1,
+        "entropy": 24.0,
+        "length": 8
+      },
+      {
+        "password": "qwerty1",
+        "category": "weak_patterns",
+        "score": 1,
+        "entropy": 19.65,
+        "length": 7
+      },
+      {
+        "password": "password12",
+        "category": "weak_patterns",
+        "score": 1,
+        "entropy": 31.22,
+        "length": 10
+      },
+      {
+        "password": "MyP@ssw0rd!",
+        "category": "moderate",
+        "score": 2,
+        "entropy": 36.05,
+        "length": 11
+      },
+      {
+        "password": "Secure123!",
+        "category": "moderate",
+        "score": 1,
+        "entropy": 31.22,
+        "length": 10
+      },
+      {
+        "password": "P@ssw0rd1",
+        "category": "moderate",
+        "score": 1,
+        "entropy": 26.53,
+        "length": 9
+      },
+      {
+        "password": "MySecure1!",
+        "category": "moderate",
+        "score": 5,
+        "entropy": 31.22,
+        "length": 10
+      },
+      {
+        "password": "Password123!",
+        "category": "moderate",
+        "score": 1,
+        "entropy": 41.02,
+        "length": 12
+      },
+      {
+        "password": "SecureP@ss1",
+        "category": "moderate",
+        "score": 5,
+        "entropy": 34.05,
+        "length": 11
+      },
+      {
+        "password": "MyP@ss1!",
+        "category": "moderate",
+        "score": 4,
+        "entropy": 22.0,
+        "length": 8
+      },
+      {
+        "password": "Secure123!@",
+        "category": "moderate",
+        "score": 1,
+        "entropy": 36.05,
+        "length": 11
+      },
+      {
+        "password": "P@ssw0rd12",
+        "category": "moderate",
+        "score": 2,
+        "entropy": 31.22,
+        "length": 10
+      },
+      {
+        "password": "MySecure12!",
+        "category": "moderate",
+        "score": 6,
+        "entropy": 36.05,
+        "length": 11
+      },
+      {
+        "password": "K9#mP2$vL8@xQ4",
+        "category": "strong",
+        "score": 8,
+        "entropy": 53.3,
+        "length": 14
+      },
+      {
+        "password": "X7&nR9#wM3$pL5",
+        "category": "strong",
+        "score": 8,
+        "entropy": 53.3,
+        "length": 14
+      },
+      {
+        "password": "Q2@mK8#nP4$rT6",
+        "category": "strong",
+        "score": 8,
+        "entropy": 53.3,
+        "length": 14
+      },
+      {
+        "password": "L5$wN9#xM2@pR7",
+        "category": "strong",
+        "score": 8,
+        "entropy": 53.3,
+        "length": 14
+      },
+      {
+        "password": "R8#tK3$nP6@mL4",
+        "category": "strong",
+        "score": 8,
+        "entropy": 53.3,
+        "length": 14
+      },
+      {
+        "password": "M4@pL7#nR2$kT9",
+        "category": "strong",
+        "score": 8,
+        "entropy": 53.3,
+        "length": 14
+      },
+      {
+        "password": "N9#rT5$mL8@xK3",
+        "category": "strong",
+        "score": 8,
+        "entropy": 53.3,
+        "length": 14
+      },
+      {
+        "password": "P6@kM2#nR7$tL4",
+        "category": "strong",
+        "score": 8,
+        "entropy": 53.3,
+        "length": 14
+      },
+      {
+        "password": "T3$rL9#nM5@pK8",
+        "category": "strong",
+        "score": 8,
+        "entropy": 53.3,
+        "length": 14
+      },
+      {
+        "password": "K7@nP4#rT2$mL6",
+        "category": "strong",
+        "score": 8,
+        "entropy": 53.3,
+        "length": 14
+      }
+    ]
+  },
+  "rag_results": {
+    "common_passwords": {
+      "precision": 100.0,
+      "recall": 100.0,
+      "content_type": 50.0,
+      "total": 4
+    },
+    "security_policies": {
+      "precision": 100.0,
+      "recall": 100.0,
+      "content_type": 75.0,
+      "total": 4
+    },
+    "pattern_analysis": {
+      "precision": 100.0,
+      "recall": 100.0,
+      "content_type": 100.0,
+      "total": 4
+    },
+    "general_security": {
+      "precision": 100.0,
+      "recall": 100.0,
+      "content_type": 0.0,
+      "total": 4
+    }
+  },
+  "e2e_results": {
+    "password_extraction": {
+      "success": 18,
+      "total": 25
+    },
+    "technical_analysis": {
+      "success": 18,
+      "total": 18
+    },
+    "rag_retrieval": {
+      "success": 25,
+      "total": 25
+    },
+    "response_times": [
+      1.039715051651001,
+      0.8493010997772217,
+      0.40680909156799316,
+      0.8604748249053955,
+      0.8631973266601562,
+      0.7519040107727051,
+      0.8714570999145508,
+      0.9027690887451172,
+      0.5208287239074707,
+      1.0225830078125,
+      0.8557720184326172,
+      0.411207914352417,
+      0.8443982601165771,
+      0.8373987674713135,
+      0.7184679508209229,
+      0.8350608348846436,
+      0.737919807434082,
+      1.0617191791534424,
+      0.4118537902832031,
+      0.8638708591461182,
+      0.855377197265625,
+      0.5132098197937012,
+      0.8408350944519043,
+      0.8597671985626221,
+      0.6227147579193115
+    ],
+    "response_quality": []
+  }
+}
