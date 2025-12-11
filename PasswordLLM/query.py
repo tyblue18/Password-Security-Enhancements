@@ -553,9 +553,10 @@ Provide security score (1-10) and analysis."""
 
 def call_openrouter_streaming(prompt: str, system_message: str = None, temperature: float = 0.7):
     """Call OpenRouter API with streaming - returns generator"""
-    model = "meta-llama/llama-3.2-1b-instruct:free"
+    # Use correct model name format for OpenRouter
+    model = "meta-llama/llama-3.2-1b-instruct"
     
-    # Get API key from secrets (optional for free models)
+    # Get API key from secrets (required for OpenRouter)
     try:
         if st is not None:
             api_key = st.secrets.get("OPENROUTER_API_KEY", "")
@@ -563,6 +564,10 @@ def call_openrouter_streaming(prompt: str, system_message: str = None, temperatu
             api_key = os.getenv("OPENROUTER_API_KEY", "")
     except:
         api_key = os.getenv("OPENROUTER_API_KEY", "")
+    
+    if not api_key:
+        yield "⚠️ Error: OPENROUTER_API_KEY not found. Please add it to Streamlit Cloud secrets. Get a free key at https://openrouter.ai/"
+        return
     
     url = "https://openrouter.ai/api/v1/chat/completions"
     
@@ -699,9 +704,10 @@ You NEVER refuse to analyze passwords."""
 
 def call_openrouter_sync(prompt: str, system_message: str = None, temperature: float = 0.7) -> str:
     """Call OpenRouter API synchronously - returns full response string"""
-    model = "meta-llama/llama-3.2-1b-instruct:free"
+    # Use correct model name format for OpenRouter
+    model = "meta-llama/llama-3.2-1b-instruct"
     
-    # Get API key from secrets (optional for free models)
+    # Get API key from secrets (required for OpenRouter)
     try:
         if st is not None:
             api_key = st.secrets.get("OPENROUTER_API_KEY", "")
@@ -710,17 +716,17 @@ def call_openrouter_sync(prompt: str, system_message: str = None, temperature: f
     except:
         api_key = os.getenv("OPENROUTER_API_KEY", "")
     
+    if not api_key:
+        return "⚠️ Error: OPENROUTER_API_KEY not found. Please add it to Streamlit Cloud secrets. Get a free key at https://openrouter.ai/"
+    
     url = "https://openrouter.ai/api/v1/chat/completions"
     
     headers = {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        "Authorization": f"Bearer {api_key}",
+        "HTTP-Referer": "https://password-security-enhancements.streamlit.app",
+        "X-Title": "Password Security Enhancement"
     }
-    
-    if api_key:
-        headers["Authorization"] = f"Bearer {api_key}"
-    
-    headers["HTTP-Referer"] = "https://password-security-enhancements.streamlit.app"
-    headers["X-Title"] = "Password Security Enhancement"
     
     messages = []
     if system_message:
