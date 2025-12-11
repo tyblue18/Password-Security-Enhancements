@@ -8,7 +8,12 @@ import os
 import re
 import torch
 import requests
-import streamlit as st
+import json
+try:
+    import streamlit as st
+except ImportError:
+    # streamlit not available (e.g., in CLI mode)
+    st = None
 
 
 def extract_password_from_query(query: str) -> str:
@@ -592,7 +597,6 @@ def call_openrouter_streaming(prompt: str, system_message: str = None, temperatu
                     if data_str == '[DONE]':
                         break
                     try:
-                        import json
                         data = json.loads(data_str)
                         if 'choices' in data and len(data['choices']) > 0:
                             delta = data['choices'][0].get('delta', {})
