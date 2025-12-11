@@ -3,11 +3,20 @@ import sys
 import os
 import atexit
 import re
+import requests
+import zipfile
+import io
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from query import load_vector_stores, get_rag_response_streaming, detect_content_type, extract_password_from_query
 import time
+
+# --- Configuration for External Vector Store ---
+VECTOR_STORE_DIR = 'vector_stores'
+# REPLACE THIS URL with your actual public download link from cloud storage
+# Examples: Google Drive direct link, S3 public URL, Dropbox direct link, etc.
+EXTERNAL_STORE_URL = os.getenv('VECTOR_STORE_URL', 'YOUR_PUBLIC_DOWNLOAD_LINK_HERE')
 
 try:
     from password_analyzer import PasswordAnalyzer
@@ -90,6 +99,94 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
+# --- Vector Store Download Function ---
+def download_and_initialize_vector_store():
+    """Download vector store from external storage if it doesn't exist locally"""
+    if EXTERNAL_STORE_URL == 'YOUR_PUBLIC_DOWNLOAD_LINK_HERE':
+        st.error("⚠️ Vector store URL not configured. Please set VECTOR_STORE_URL environment variable or update EXTERNAL_STORE_URL in app.py")
+        st.info("""
+        To deploy this app:
+        1. Compress your vector_stores directory into vector_stores.zip
+        2. Upload to cloud storage (Google Drive, S3, Dropbox, etc.)
+        3. Get a direct download link
+        4. Set the VECTOR_STORE_URL environment variable in Streamlit Cloud
+        """)
+        st.stop()
+    
+    progress_bar = st.progress(0)
+    status_text = st.empty()
+    
+    try:
+        status_text.info("📥 Downloading vector store (this may take a few minutes)...")
+        progress_bar.progress(10)
+        
+        # Download the file with streaming for large files
+        response = requests.get(EXTERNAL_STORE_URL, stream=True, timeout=300)
+        response.raise_for_status()
+        
+        progress_bar.progress(30)
+        status_text.info("📦 Extracting vector store files...")
+        
+        # Get file size for progress tracking
+        total_size = int(response.headers.get('content-length', 0))
+        downloaded = 0
+        chunk_size = 8192
+        
+        # Download and extract in chunks
+        zip_data = io.BytesIO()
+        for chunk in response.iter_content(chunk_size=chunk_size):
+            if chunk:
+                zip_data.write(chunk)
+                downloaded += len(chunk)
+                if total_size > 0:
+                    progress = min(30 + int((downloaded / total_size) * 50), 80)
+                    progress_bar.progress(progress)
+        
+        zip_data.seek(0)
+        progress_bar.progress(80)
+        
+        # Extract the zip file
+        with zipfile.ZipFile(zip_data) as z:
+            z.extractall('.')
+        
+        progress_bar.progress(100)
+        status_text.success("✅ Vector store initialized successfully!")
+        progress_bar.empty()
+        status_text.empty()
+        
+        # Small delay to show success message
+        time.sleep(1)
+        status_text.empty()
+        
+    except requests.exceptions.RequestException as e:
+        progress_bar.empty()
+        status_text.error(f"❌ Failed to download vector store: {e}")
+        st.error("""
+        **Download Error**: Could not download vector store from external storage.
+        
+        Possible issues:
+        - Check that VECTOR_STORE_URL is set correctly
+        - Verify the download link is publicly accessible
+        - Ensure the link doesn't require authentication
+        - Check your internet connection
+        """)
+        st.stop()
+    except zipfile.BadZipFile:
+        progress_bar.empty()
+        status_text.error("❌ Downloaded file is not a valid ZIP archive")
+        st.error("The downloaded file appears to be corrupted or not a ZIP file.")
+        st.stop()
+    except Exception as e:
+        progress_bar.empty()
+        status_text.error(f"❌ Unexpected error: {e}")
+        st.error(f"An unexpected error occurred: {str(e)}")
+        st.stop()
+
+
+# --- Check and Download Vector Store if Needed ---
+if not os.path.exists(VECTOR_STORE_DIR) or not os.listdir(VECTOR_STORE_DIR):
+    download_and_initialize_vector_store()
+
 # Initialize session state
 if 'vector_stores' not in st.session_state:
     st.session_state.vector_stores = None
@@ -106,7 +203,7 @@ def load_stores():
         return load_vector_stores()
     except Exception as e:
         st.error(f"Error loading vector stores: {e}")
-        st.info("Make sure you've run `initialize_rag.py` first to create the vector stores.")
+        st.info("Vector stores directory exists but could not be loaded. Check the error above.")
         return None
 
 
