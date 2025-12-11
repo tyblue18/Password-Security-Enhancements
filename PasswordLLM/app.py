@@ -121,8 +121,37 @@ def download_and_initialize_vector_store():
         progress_bar.progress(10)
         
         # Download the file with streaming for large files
-        response = requests.get(EXTERNAL_STORE_URL, stream=True, timeout=300)
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+        }
+        response = requests.get(EXTERNAL_STORE_URL, stream=True, timeout=300, headers=headers, allow_redirects=True)
         response.raise_for_status()
+        
+        # Check content type to detect if we got HTML instead of ZIP
+        content_type = response.headers.get('content-type', '').lower()
+        if 'html' in content_type or 'text' in content_type:
+            # Likely got an HTML page instead of the file
+            sample = response.content[:500].decode('utf-8', errors='ignore')
+            progress_bar.empty()
+            status_text.error("❌ Received HTML page instead of ZIP file")
+            st.error("""
+            **Download Error**: The URL returned an HTML page instead of the ZIP file.
+            
+            **Common causes:**
+            - Google Drive: Make sure you're using the direct download format:
+              `https://drive.google.com/uc?export=download&id=FILE_ID`
+            - Dropbox: Use `dl.dropboxusercontent.com` format, not `www.dropbox.com`
+            - The file might require authentication
+            
+            **Fix for Google Drive:**
+            1. Get your share link: `https://drive.google.com/file/d/FILE_ID/view`
+            2. Extract the FILE_ID
+            3. Use: `https://drive.google.com/uc?export=download&id=FILE_ID`
+            
+            **What was received:** (first 200 chars)
+            """)
+            st.code(sample[:200], language='html')
+            st.stop()
         
         progress_bar.progress(30)
         status_text.info("📦 Extracting vector store files...")
@@ -141,6 +170,34 @@ def download_and_initialize_vector_store():
                 if total_size > 0:
                     progress = min(30 + int((downloaded / total_size) * 50), 80)
                     progress_bar.progress(progress)
+        
+        zip_data.seek(0)
+        
+        # Verify it's a ZIP file before extracting
+        if not zipfile.is_zipfile(zip_data):
+            # Check what we actually got
+            zip_data.seek(0)
+            sample = zip_data.read(500).decode('utf-8', errors='ignore')
+            progress_bar.empty()
+            status_text.error("❌ Downloaded file is not a valid ZIP archive")
+            st.error("""
+            **Invalid ZIP File**: The downloaded file is not a valid ZIP archive.
+            
+            **Possible issues:**
+            - The URL is redirecting to an HTML page (check Google Drive format)
+            - The file wasn't uploaded correctly
+            - The link requires authentication
+            
+            **What was received:** (first 200 chars)
+            """)
+            st.code(sample[:200], language='text')
+            st.info("""
+            **For Google Drive:**
+            - Make sure file is shared as "Anyone with the link"
+            - Use format: `https://drive.google.com/uc?export=download&id=YOUR_FILE_ID`
+            - NOT: `https://drive.google.com/file/d/FILE_ID/view`
+            """)
+            st.stop()
         
         zip_data.seek(0)
         progress_bar.progress(80)
