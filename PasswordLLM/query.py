@@ -590,6 +590,14 @@ def call_openrouter_streaming(prompt: str, system_message: str = None, temperatu
     
     try:
         response = requests.post(url, headers=headers, json=payload, stream=True, timeout=30)
+        
+        # Check for authentication errors
+        if response.status_code == 401:
+            error_msg = "Authentication failed. Please add OPENROUTER_API_KEY to Streamlit Cloud secrets. Get a free API key at https://openrouter.ai/"
+            print(f"[ERROR] {error_msg}")
+            yield f"⚠️ {error_msg}"
+            return
+        
         response.raise_for_status()
         
         for line in response.iter_lines():
@@ -608,6 +616,14 @@ def call_openrouter_streaming(prompt: str, system_message: str = None, temperatu
                                 yield content
                     except json.JSONDecodeError:
                         continue
+    except requests.exceptions.HTTPError as e:
+        if e.response.status_code == 401:
+            error_msg = "Authentication failed. Please add OPENROUTER_API_KEY to Streamlit Cloud secrets. Get a free API key at https://openrouter.ai/"
+            print(f"[ERROR] {error_msg}")
+            yield f"⚠️ {error_msg}"
+        else:
+            print(f"[ERROR] OpenRouter API call failed: {e}")
+            yield f"Error: API request failed with status {e.response.status_code}. {str(e)}"
     except Exception as e:
         print(f"[ERROR] OpenRouter API call failed: {e}")
         yield f"Error: Could not connect to LLM service. {str(e)}"
