@@ -25,8 +25,9 @@ vector_stores.zip
 .DS_Store
 Thumbs.db
 
-# Streamlit
-.streamlit/
+# Streamlit (but allow config.toml)
+.streamlit/*
+!.streamlit/config.toml
 
 # Data files (if large)
 *.db
