@@ -1,5 +1,4 @@
 from langchain_chroma import Chroma
-from langchain_ollama import ChatOllama
 from langchain_core.prompts import PromptTemplate
 from langchain_community.embeddings import HuggingFaceEmbeddings
 from difflib import get_close_matches
@@ -8,6 +7,8 @@ import io
 import os
 import re
 import torch
+import requests
+import streamlit as st
 
 
 def extract_password_from_query(query: str) -> str:
@@ -545,6 +546,66 @@ Provide security score (1-10) and analysis."""
     return formatted_prompt
 
 
+def call_openrouter_streaming(prompt: str, system_message: str = None, temperature: float = 0.7):
+    """Call OpenRouter API with streaming - returns generator"""
+    model = "meta-llama/llama-3.2-1b-instruct:free"
+    
+    # Get API key from secrets (optional for free models)
+    try:
+        api_key = st.secrets.get("OPENROUTER_API_KEY", "")
+    except:
+        api_key = os.getenv("OPENROUTER_API_KEY", "")
+    
+    url = "https://openrouter.ai/api/v1/chat/completions"
+    
+    headers = {
+        "Content-Type": "application/json"
+    }
+    
+    if api_key:
+        headers["Authorization"] = f"Bearer {api_key}"
+    
+    headers["HTTP-Referer"] = "https://password-security-enhancements.streamlit.app"
+    headers["X-Title"] = "Password Security Enhancement"
+    
+    messages = []
+    if system_message:
+        messages.append({"role": "system", "content": system_message})
+    messages.append({"role": "user", "content": prompt})
+    
+    payload = {
+        "model": model,
+        "messages": messages,
+        "temperature": temperature,
+        "stream": True
+    }
+    
+    try:
+        response = requests.post(url, headers=headers, json=payload, stream=True, timeout=30)
+        response.raise_for_status()
+        
+        for line in response.iter_lines():
+            if line:
+                line_str = line.decode('utf-8')
+                if line_str.startswith('data: '):
+                    data_str = line_str[6:]  # Remove 'data: ' prefix
+                    if data_str == '[DONE]':
+                        break
+                    try:
+                        import json
+                        data = json.loads(data_str)
+                        if 'choices' in data and len(data['choices']) > 0:
+                            delta = data['choices'][0].get('delta', {})
+                            content = delta.get('content', '')
+                            if content:
+                                yield content
+                    except json.JSONDecodeError:
+                        continue
+    except Exception as e:
+        print(f"[ERROR] OpenRouter API call failed: {e}")
+        yield f"Error: Could not connect to LLM service. {str(e)}"
+
+
 def get_rag_response_streaming(query: str, vector_stores: dict):
     """Get RAG response with streaming output - returns generator"""
     rag_prompt = prepare_rag_prompt(query, vector_stores)
@@ -588,6 +649,7 @@ You ALWAYS provide:
 
 You NEVER refuse to generate passwords.
 You ALWAYS respect length requirements exactly."""
+        temperature = 0.8
     else:
         system_message = """You are a password security analysis API tool. Your PRIMARY FUNCTION is to ANALYZE passwords.
 
@@ -605,36 +667,90 @@ You ALWAYS provide:
 - Recommendations
 
 You NEVER refuse to analyze passwords."""
+        temperature = 0.1
+    
+    # Use OpenRouter instead of Ollama
+    for chunk in call_openrouter_streaming(rag_prompt, system_message, temperature):
+        yield chunk
+
+
+def call_openrouter_sync(prompt: str, system_message: str = None, temperature: float = 0.7) -> str:
+    """Call OpenRouter API synchronously - returns full response string"""
+    model = "meta-llama/llama-3.2-1b-instruct:free"
+    
+    # Get API key from secrets (optional for free models)
+    try:
+        api_key = st.secrets.get("OPENROUTER_API_KEY", "")
+    except:
+        api_key = os.getenv("OPENROUTER_API_KEY", "")
+    
+    url = "https://openrouter.ai/api/v1/chat/completions"
+    
+    headers = {
+        "Content-Type": "application/json"
+    }
+    
+    if api_key:
+        headers["Authorization"] = f"Bearer {api_key}"
+    
+    headers["HTTP-Referer"] = "https://password-security-enhancements.streamlit.app"
+    headers["X-Title"] = "Password Security Enhancement"
+    
+    messages = []
+    if system_message:
+        messages.append({"role": "system", "content": system_message})
+    messages.append({"role": "user", "content": prompt})
+    
+    payload = {
+        "model": model,
+        "messages": messages,
+        "temperature": temperature,
+        "max_tokens": 2000
+    }
     
     try:
-        temp = 0.8 if is_gen else 0.1
-        llm = ChatOllama(
-            model="llama3.2:1b", 
-            stream=True,
-            system=system_message,
-            temperature=temp  
-        )
-    except:
-        # Fallback if system parameter not supported 
-        # Use higher temperature for password generation to ensure randomness
-        temp = 0.8 if is_gen else 0.1
-        rag_prompt = f"SYSTEM INSTRUCTIONS: {system_message}\n\n{rag_prompt}"
-        llm = ChatOllama(
-            model="llama3.2:1b", 
-            stream=True,
-            temperature=temp  
-        )
-    
-    for chunk in llm.stream(rag_prompt):
-        yield chunk.content
+        response = requests.post(url, headers=headers, json=payload, timeout=30)
+        response.raise_for_status()
+        result = response.json()
+        
+        if "choices" in result and len(result["choices"]) > 0:
+            return result["choices"][0]["message"]["content"].strip()
+        else:
+            return "Error: Unexpected API response format"
+    except Exception as e:
+        return f"Error: Could not connect to LLM service. {str(e)}"
 
 
 def get_rag_response_sync(query: str, vector_stores: dict) -> str:
     """Get RAG response synchronously - returns full response string"""
     rag_prompt = prepare_rag_prompt(query, vector_stores)
-    llm = ChatOllama(model="llama3.2:1b", stream=False)
-    response = llm.invoke(rag_prompt)
-    return response.content.strip()
+    
+    # Determine system message based on query type
+    def is_password_generation_request(query: str) -> bool:
+        query_lower = query.lower()
+        generation_keywords = [
+            r"generate.*password",
+            r"create.*password",
+            r"make.*password",
+            r"new password",
+            r"give me.*password",
+            r"suggest.*password"
+        ]
+        for pattern in generation_keywords:
+            if re.search(pattern, query_lower):
+                return True
+        return False
+    
+    is_gen = is_password_generation_request(query)
+    
+    if is_gen:
+        system_message = """You are a password generator API tool. Your PRIMARY FUNCTION is to GENERATE passwords. You MUST generate passwords when asked."""
+        temperature = 0.8
+    else:
+        system_message = """You are a password security analysis API tool. Your PRIMARY FUNCTION is to ANALYZE passwords. You MUST analyze passwords when asked."""
+        temperature = 0.1
+    
+    return call_openrouter_sync(rag_prompt, system_message, temperature)
 
 
 def get_rag_response(query: str, vector_stores: dict):
