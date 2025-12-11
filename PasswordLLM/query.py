@@ -687,7 +687,10 @@ def call_openrouter_sync(prompt: str, system_message: str = None, temperature: f
     
     # Get API key from secrets (optional for free models)
     try:
-        api_key = st.secrets.get("OPENROUTER_API_KEY", "")
+        if st is not None:
+            api_key = st.secrets.get("OPENROUTER_API_KEY", "")
+        else:
+            api_key = os.getenv("OPENROUTER_API_KEY", "")
     except:
         api_key = os.getenv("OPENROUTER_API_KEY", "")
     
