@@ -736,6 +736,11 @@ def call_openrouter_sync(prompt: str, system_message: str = None, temperature: f
     
     try:
         response = requests.post(url, headers=headers, json=payload, timeout=30)
+        
+        # Check for authentication errors
+        if response.status_code == 401:
+            return "⚠️ Authentication failed. Please add OPENROUTER_API_KEY to Streamlit Cloud secrets. Get a free API key at https://openrouter.ai/ (it's free!)"
+        
         response.raise_for_status()
         result = response.json()
         
@@ -743,6 +748,11 @@ def call_openrouter_sync(prompt: str, system_message: str = None, temperature: f
             return result["choices"][0]["message"]["content"].strip()
         else:
             return "Error: Unexpected API response format"
+    except requests.exceptions.HTTPError as e:
+        if e.response.status_code == 401:
+            return "⚠️ Authentication failed. Please add OPENROUTER_API_KEY to Streamlit Cloud secrets. Get a free API key at https://openrouter.ai/ (it's free!)"
+        else:
+            return f"Error: API request failed with status {e.response.status_code}. {str(e)}"
     except Exception as e:
         return f"Error: Could not connect to LLM service. {str(e)}"
 
