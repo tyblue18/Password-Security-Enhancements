@@ -572,14 +572,11 @@ def call_openrouter_streaming(prompt: str, system_message: str = None, temperatu
     url = "https://openrouter.ai/api/v1/chat/completions"
     
     headers = {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        "Authorization": f"Bearer {api_key}",
+        "HTTP-Referer": "https://password-security-enhancements.streamlit.app",
+        "X-Title": "Password Security Enhancement"
     }
-    
-    if api_key:
-        headers["Authorization"] = f"Bearer {api_key}"
-    
-    headers["HTTP-Referer"] = "https://password-security-enhancements.streamlit.app"
-    headers["X-Title"] = "Password Security Enhancement"
     
     messages = []
     if system_message:
